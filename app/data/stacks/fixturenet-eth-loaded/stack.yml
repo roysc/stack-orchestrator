@@ -6,7 +6,6 @@ repos:
   - cerc-io/tx-spammer
   - cerc-io/ipld-eth-server
   - cerc-io/ipld-eth-db
-  - cerc/go-ethereum
 containers:
   - cerc/lighthouse
   - cerc/fixturenet-eth-geth

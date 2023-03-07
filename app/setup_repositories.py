@@ -133,7 +133,7 @@ def command(ctx, include, exclude, git_ssh, check_only, pull, branches_file):
         full_filesystem_repo_path = os.path.join(dev_root_path, repoName)
         is_present = os.path.isdir(full_filesystem_repo_path)
         if not quiet:
-            present_text = f"already exists active branch: {git.Repo(full_filesystem_repo_path).active_branch}" if is_present \
+            present_text = f"already exists; active branch: {git.Repo(full_filesystem_repo_path).active_branch}" if is_present \
                 else 'Needs to be fetched'
             print(f"Checking: {full_filesystem_repo_path}: {present_text}")
         # Quick check that it's actually a repo

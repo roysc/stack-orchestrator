@@ -22,11 +22,13 @@
 
 import os
 import sys
-from decouple import config
 import subprocess
-import click
 import importlib.resources
 from pathlib import Path
+
+import click
+from decouple import config
+
 from .util import include_exclude_check, get_parsed_stack_config
 
 # TODO: find a place for this
