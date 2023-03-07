@@ -84,6 +84,8 @@ def command(ctx, include, exclude, force_rebuild, extra_build_args):
         if stack:
             print(f"Stack: {stack}")
 
+    go_proxy = config("GOPROXY", default="")
+
     # TODO: make this configurable
     container_build_env = {
         "CERC_NPM_REGISTRY_URL": config("CERC_NPM_REGISTRY_URL", default="http://gitea.local:3000/api/packages/cerc-io/npm/"),
@@ -92,7 +94,8 @@ def command(ctx, include, exclude, force_rebuild, extra_build_args):
         "CERC_CONTAINER_BASE_DIR": container_build_dir,
         "CERC_HOST_UID": f"{os.getuid()}",
         "CERC_HOST_GID": f"{os.getgid()}",
-        "DOCKER_BUILDKIT": config("DOCKER_BUILDKIT", default="0")
+        "DOCKER_BUILDKIT": config("DOCKER_BUILDKIT", default="0"),
+        "CERC_GOPROXY_URL": go_proxy,
     }
     container_build_env.update({"CERC_SCRIPT_DEBUG": "true"} if debug else {})
     container_build_env.update({"CERC_FORCE_REBUILD": "true"} if force_rebuild else {})
