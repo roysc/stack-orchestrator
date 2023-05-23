@@ -29,3 +29,4 @@ services:
       start_period: 3s
     ports:
       - "127.0.0.1:8077:5432"
+    command: ["-d", "2"]
