@@ -73,9 +73,13 @@ else
           -U "$CERC_STATEDIFF_DB_USER" \
           -d "$CERC_STATEDIFF_DB_NAME" \
           -t -c 'select max(version_id) from goose_db_version;' 2>/dev/null | awk '{ print $1 }')
-        if [ -n "$result" ] && [ $result -ge $CERC_STATEDIFF_DB_GOOSE_MIN_VER ]; then
+        if [ -n "$result" ]; then
           echo "DB ready..."
-          ready=1
+          if [ $result -ge $CERC_STATEDIFF_DB_GOOSE_MIN_VER ]; then
+            ready=1
+          else
+            echo "DB not at required version (want $CERC_STATEDIFF_DB_GOOSE_MIN_VER, have $result)"
+          fi
         fi
       done
       STATEDIFF_OPTS="--statediff=true \
