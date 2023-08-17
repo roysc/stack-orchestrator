@@ -19,7 +19,8 @@ services:
       postgres_db: graph-node
       # TODO: Get endpoint from env
       ethereum: 'lotus-fixturenet:http://lotus-node-1:1234/rpc/v1'
-      GRAPH_LOG: info
+      GRAPH_LOG: trace
+      GRAPH_ETHEREUM_MAX_BLOCK_RANGE_SIZE: 2
     ports:
       - "8000"
       - "8001"
@@ -31,6 +32,7 @@ services:
       timeout: 10s
       retries: 10
       start_period: 3s
+
   ipfs:
     image: ipfs/kubo:master-2023-02-20-714a968
     volumes:
@@ -40,6 +42,7 @@ services:
       - "8080"
       - "4001"
       - "5001"
+
   db:
     image: postgres:14-alpine
     volumes:
