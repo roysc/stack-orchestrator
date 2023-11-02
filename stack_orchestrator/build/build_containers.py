@@ -39,8 +39,9 @@ from stack_orchestrator.base import get_npm_registry_url
 @click.option('--exclude', help="don\'t build these containers")
 @click.option("--force-rebuild", is_flag=True, default=False, help="Override dependency checking -- always rebuild")
 @click.option("--extra-build-args", help="Supply extra arguments to build")
+@click.option("--no-forward-path", help="Forward PATH to scripts", is_flag=True, default=False)
 @click.pass_context
-def command(ctx, include, exclude, force_rebuild, extra_build_args):
+def command(ctx, include, exclude, force_rebuild, extra_build_args, no_forward_path):
     '''build the set of containers required for a complete stack'''
 
     quiet = ctx.obj.quiet
@@ -97,6 +98,7 @@ def command(ctx, include, exclude, force_rebuild, extra_build_args):
     container_build_env.update({"CERC_SCRIPT_DEBUG": "true"} if debug else {})
     container_build_env.update({"CERC_FORCE_REBUILD": "true"} if force_rebuild else {})
     container_build_env.update({"CERC_CONTAINER_EXTRA_BUILD_ARGS": extra_build_args} if extra_build_args else {})
+    container_build_env.update({"PATH": os.environ["PATH"]} if not no_forward_path else {})
     docker_host_env = os.getenv("DOCKER_HOST")
     if docker_host_env:
         container_build_env.update({"DOCKER_HOST": docker_host_env})
