@@ -27,6 +27,7 @@ from pathlib import Path
 from stack_orchestrator.util import include_exclude_check, get_parsed_stack_config, global_options2, get_dev_root_path
 from stack_orchestrator.deploy.deployer import Deployer, DeployerException
 from stack_orchestrator.deploy.deployer_factory import getDeployer
+from stack_orchestrator.deploy.compose import DockerDeployer
 from stack_orchestrator.deploy.deploy_types import ClusterContext, DeployCommandContext
 from stack_orchestrator.deploy.deployment_create import create as deployment_create
 from stack_orchestrator.deploy.deployment_create import init as deployment_init
@@ -220,7 +221,11 @@ def get_stack_status(ctx, stack):
     ctx_copy.stack = stack
 
     cluster_context = _make_cluster_context(ctx_copy, stack, None, None, None, None)
-    deployer = Deployer(compose_files=cluster_context.compose_files, compose_project_name=cluster_context.cluster)
+    deployer = DockerDeployer(
+        compose_files=cluster_context.compose_files,
+        compose_project_name=cluster_context.cluster,
+        compose_env_file=cluster_context.env_file,
+    )
     # TODO: refactor to avoid duplicating this code above
     if ctx.verbose:
         print("Running compose ps")
