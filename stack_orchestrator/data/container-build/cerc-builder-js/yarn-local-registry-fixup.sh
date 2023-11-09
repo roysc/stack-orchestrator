@@ -54,5 +54,7 @@ if [ -n "$CERC_SCRIPT_VERBOSE" ]; then
 fi
 # Use magic sed regex to replace the values in yarn.lock
 # Note: yarn.lock is not json so we can not use jq for this
-sed -i -e '/^\"'${escaped_target_package}'.*\":$/ , /^\".*$/ s/^\([[:space:]]\{1,\}resolved \).*$/\1'\"${escaped_package_resolved}\"'/' yarn.lock
-sed -i -e '/^\"'${escaped_target_package}'.*\":$/ , /^\".*$/ s/^\([[:space:]]\{1,\}integrity \).*$/\1'${escaped_package_integrity}'/' yarn.lock
+cat yarn.lock | sed \
+  -e '/^\"'${escaped_target_package}'.*\":$/ , /^\".*$/ s/^\([[:space:]]\{1,\}resolved \).*$/\1'\"${escaped_package_resolved}\"'/' \
+  -e '/^\"'${escaped_target_package}'.*\":$/ , /^\".*$/ s/^\([[:space:]]\{1,\}integrity \).*$/\1'${escaped_package_integrity}'/' > yarn.lock.tmp
+mv yarn.lock.tmp yarn.lock
